@@ -1,7 +1,7 @@
 migrations = (async () => {
     const database = require('./db');
-    const Usuario = require('../models/usuario');
-    const Avaliacoes = require('../models/avaliacoes');
+    const Usuario = require('../models/Usuario');
+    const Avaliacoes = require('../models/Avaliacao');
  
     try {
         const resultado = await database.sync();

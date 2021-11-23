@@ -5,7 +5,7 @@
     const express = require('express');
     const { engine } = require ('express-handlebars');
     const bodyParser = require('body-parser');
-    const admin = require('./routes/admin')
+    const urls = require('./routes/urls')
     const path = require('path');
     const app = express()
 
@@ -26,7 +26,7 @@
         app.use(express.static(path.join(__dirname, 'public')))
 
 // Rotas
-    app.use('/admin', admin)
+    app.use('/', urls)
 
 // Outros
 
