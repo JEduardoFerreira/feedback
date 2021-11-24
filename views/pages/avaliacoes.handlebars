@@ -3,3 +3,29 @@
 <a href="/avaliacoes/add">
     <buttom class="btn btn-success">Nova Avaliação</buttom>
 </a>
+<table class="table table-bordered tabela">
+    <thead>
+        <tr>
+            <td>Avaliador</td>
+            <td>Avaliado</td>
+            <td>Melhorar</td>
+            <td>Manter</td>
+            <td>Sugestões</td>
+            <td>Avaliação Final</td>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each av}}
+            <tr>
+                <td>{{nome_avaliador}}</td>
+                <td>{{nome_avaliado}}</td>
+                <td>{{melhorar}}</td>
+                <td>{{manter}}</td>
+                <td>{{sugestoes}}</td>
+                <td>{{avaliaco_final}}</td>
+            </tr>
+        {{else}}
+
+        {{/each}}
+    </tbody>
+</table>

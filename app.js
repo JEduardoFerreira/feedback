@@ -1,15 +1,34 @@
 // Módulos
     // Verifica estrutura das tabelas
-    // Remova o comentario apenas se precisar recriar o arquivo db.sqlite
-    const migrations = require('./modules/migrations')    
+        // Remova o comentario apenas se precisar recriar o arquivo db.sqlite
+        const migrations = require('./modules/migrations')    
     const express = require('express');
     const { engine } = require ('express-handlebars');
     const bodyParser = require('body-parser');
+    const app = express()
     const urls = require('./routes/urls')
     const path = require('path');
-    const app = express()
+    const session = require('express-session')
+    const flash = require('connect-flash')
 
 // Configurações
+    // Sessão
+        app.use(session({
+            secret: 'AppFeedBack',
+            resave: true,
+            saveUninitialized: true,
+        }));
+
+    // Flash
+        app.use(flash());
+
+    // Middleware
+        app.use((req, res, next) => {
+            res.locals.success_msg = req.flash('success_msg');
+            res.locals.error_msg = req.flash('error_msg');
+            next();
+        })
+
     // Body Parser
         app.use(bodyParser.urlencoded({extended: true}))
         app.use(bodyParser.json())
