@@ -1,31 +1,26 @@
+<link>
 <h2>Avaliações</h2>
 <hr>
 <a href="/avaliacoes/add">
     <buttom class="btn btn-success">Nova Avaliação</buttom>
 </a>
-<table class="table table-bordered tabela">
-    <thead>
-        <tr>
-            <td>Avaliador</td>
-            <td>Avaliado</td>
-            <td>Melhorar</td>
-            <td>Manter</td>
-            <td>Sugestões</td>
-            <td>Avaliação Final</td>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each av}}
-            <tr>
-                <td>{{nome_avaliador}}</td>
-                <td>{{nome_avaliado}}</td>
-                <td>{{melhorar}}</td>
-                <td>{{manter}}</td>
-                <td>{{sugestoes}}</td>
-                <td>{{avaliaco_final}}</td>
-            </tr>
-        {{else}}
 
-        {{/each}}
-    </tbody>
-</table>
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+    {{#each avaliacoes}}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{nome_avaliado}}</h5>
+                <p class="card-text">{{avaliaco_final}}</p>
+                <footer class="blockquote-footer">
+                    <cite title="Source Title">{{nome_avaliador}}</cite>
+                    <cite title="Source Title"> em {{updatedAt}}</cite>
+                </footer>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="btn btn-primary">Ver Avaliação Completa</a>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

@@ -15,20 +15,20 @@ router.get('/admin', (req, res) =>{
             SELECT
                 a.id_usuario_avaliador, (u1.nome)AS nome_avaliador, 
                 a.id_usuario_avaliado, (u2.nome)AS nome_avaliado, 
-                a.melhorar, a.manter, a.sugestoes, a.avaliaco_final
+                a.melhorar, a.manter, a.sugestoes, a.avaliaco_final, 
+                a.createdAt, STRFTIME("%d/%m/%Y %H:%M", a.updatedAt)AS updatedAt
             FROM avaliacoes a
             LEFT JOIN usuarios u1
                 ON u1.id = a.id_usuario_avaliador
             LEFT JOIN usuarios u2
                 ON u2.id = a.id_usuario_avaliado
+            ORDER BY a.updatedAt DESC
         `).then((avaliacoes) => {
-            res.render('pages/avaliacoes', {av: avaliacoes[0]})
+            res.render('pages/avaliacoes', {avaliacoes: avaliacoes[0]})
+        }).catch((err) => {
+            req.flash('error_msg', 'Erro ao listar Avaliações!');
+            res.redirect('/avaliacoes');
         });
-        //Usuario.findAll().then(() => {
-        //
-        //})
-
-        
     });
 
     router.get('/avaliacoes/add', (req, res) =>{
@@ -68,7 +68,8 @@ router.get('/admin', (req, res) =>{
                 req.flash('success_msg', 'Avaliação registrada com sucesso!');
                 res.redirect('/avaliacoes')
             }).catch((err) => {
-                rec.flash('error_msg', 'Erro ao registrar a Avaliação!');
+                req.flash('error_msg', 'Erro ao registrar a Avaliação!');
+                res.redirect('/avaliacoes');
             });
         }
     });

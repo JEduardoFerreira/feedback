@@ -1,0 +1,12 @@
+.blockquote-footer{
+    text-align: right;
+    margin: 0px;
+}
+
+.blockquote-footer>cite:nth-child(2){
+    display: block;
+}
+
+.card-footer{
+    text-align: center;
+}
