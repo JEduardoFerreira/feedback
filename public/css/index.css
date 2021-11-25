@@ -1,12 +1,24 @@
-.blockquote-footer{
+.blockquote-footer {
     text-align: right;
     margin: 0px;
 }
 
-.blockquote-footer>cite:nth-child(2){
+.blockquote-footer>cite:nth-child(2) {
     display: block;
+    font-size: 10px;
 }
 
-.card-footer{
+p.card-text {
+    min-height: 58%;
+    max-height: 58%;
+    margin-bottom: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.card-footer {
     text-align: center;
 }

@@ -10,13 +10,14 @@ router.get('/admin', (req, res) =>{
 })
 
 // Avaliações
-    router.get('/avaliacoes', (req, res) =>{
+    router.get('/avaliacoes', (req, res) => {
         db.query(`
             SELECT
-                a.id_usuario_avaliador, (u1.nome)AS nome_avaliador, 
+                a.id, a.id_usuario_avaliador, (u1.nome)AS nome_avaliador, 
                 a.id_usuario_avaliado, (u2.nome)AS nome_avaliado, 
                 a.melhorar, a.manter, a.sugestoes, a.avaliaco_final, 
-                a.createdAt, STRFTIME("%d/%m/%Y %H:%M", a.updatedAt)AS updatedAt
+                datetime(a.createdAt)AS createdAt, 
+                datetime(a.updatedAt)AS updatedAt
             FROM avaliacoes a
             LEFT JOIN usuarios u1
                 ON u1.id = a.id_usuario_avaliador
@@ -31,7 +32,7 @@ router.get('/admin', (req, res) =>{
         });
     });
 
-    router.get('/avaliacoes/add', (req, res) =>{
+    router.get('/avaliacoes/add', (req, res) =>{       
         res.render('pages/add_avaliacoes')
     });
 

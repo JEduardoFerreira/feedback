@@ -10,15 +10,15 @@
     <div class="col">
         <div class="card h-100">
             <div class="card-body">
-                <h5 class="card-title">{{nome_avaliado}}</h5>
+                <h5 class="card-title" title="Sobre">{{nome_avaliado}}</h5>
                 <p class="card-text">{{avaliaco_final}}</p>
                 <footer class="blockquote-footer">
-                    <cite title="Source Title">{{nome_avaliador}}</cite>
-                    <cite title="Source Title"> em {{updatedAt}}</cite>
+                    <cite title="Escrito por">{{nome_avaliador}}</cite>
+                    <cite title="Escrito em">{{updatedAt}}</cite>
                 </footer>
             </div>
             <div class="card-footer">
-                <a href="#" class="btn btn-primary">Ver Avaliação Completa</a>
+                <a href="/avaliacoes/add?id={{id}}" class="btn btn-primary">Avaliação Completa</a>
             </div>
         </div>
     </div>
