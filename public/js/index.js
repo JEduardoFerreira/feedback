@@ -36,3 +36,11 @@ $('document').ready(()=> {
         elem.innerText = dataExtenso(elem.innerText);
     });
 });
+
+$("#container-avaliacoes").on('click', '.vis-ava, .edt-ava, .exc-ava', event => {
+    event.preventDefault();
+    debugger;
+    let elem = event.currentTarget;
+    let target = elem.getAttribute('to-ref');
+    window.location.href = target;    
+});

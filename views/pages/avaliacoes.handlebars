@@ -1,26 +1,34 @@
-<link>
 <h2>Avaliações</h2>
 <hr>
 <a href="/avaliacoes/add">
     <buttom class="btn btn-success">Nova Avaliação</buttom>
 </a>
-
-<div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
-    {{#each avaliacoes}}
-    <div class="col">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title" title="Sobre">{{nome_avaliado}}</h5>
-                <p class="card-text">{{avaliaco_final}}</p>
-                <footer class="blockquote-footer">
-                    <cite title="Escrito por">{{nome_avaliador}}</cite>
-                    <cite title="Escrito em">{{updatedAt}}</cite>
-                </footer>
-            </div>
-            <div class="card-footer">
-                <a href="/avaliacoes/add?id={{id}}" class="btn btn-primary">Avaliação Completa</a>
+<div id="container-avaliacoes">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
+        {{#each avaliacoes}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title" title="Sobre">{{nome_avaliado}}</h5>
+                    <p class="card-text">{{avaliaco_final}}</p>
+                    <footer class="blockquote-footer">
+                        <cite title="Escrito por">{{nome_avaliador}}</cite>
+                        <cite title="Escrito em">{{updatedAt}}</cite>
+                    </footer>
+                </div>
+                <div class="card-footer">
+                    <button type="button" class="btn btn-success vis-ava" title="Visualizar" to-ref="/avaliacoes/add?id={{id}}">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary edt-ava" title="Editar" to-ref="/avaliacoes/add?id={{id}}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger exc-ava" title="Excluir" to-ref="/avaliacoes/exc?id={{id}}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
             </div>
         </div>
+        {{/each}}
     </div>
-    {{/each}}
 </div>

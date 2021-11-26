@@ -9,8 +9,8 @@
 }
 
 p.card-text {
-    min-height: 58%;
-    max-height: 58%;
+    /*min-height: 58%;
+    max-height: 58%;*/
     margin-bottom: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -21,4 +21,8 @@ p.card-text {
 
 .card-footer {
     text-align: center;
+}
+
+.card-footer>button {
+    margin: 0px 5px;
 }

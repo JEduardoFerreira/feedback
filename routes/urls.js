@@ -32,8 +32,34 @@ router.get('/admin', (req, res) =>{
         });
     });
 
-    router.get('/avaliacoes/add', (req, res) =>{       
-        res.render('pages/add_avaliacoes')
+    router.get('/avaliacoes/exc', (req, res) => {
+        let id_avaliacao = req.query.id || '';
+        if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
+            Avaliacao.destroy({where: {id: id_avaliacao}}).then(avaliacao => {
+                req.flash('success_msg', 'Avaliação excluída com sucesso!');
+                res.redirect('/avaliacoes');
+            }).catch((err) => {
+                req.flash('error_msg', 'Não foi possível excluir esta Avaliação!');
+                res.redirect('/avaliacoes'); 
+            });            
+        }else{
+            res.redirect('/avaliacao');
+        }
+    });
+
+    router.get('/avaliacoes/add', (req, res) => { 
+        let id_avaliacao = req.query.id || '';
+        if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
+            Avaliacao.findOne({where: {id: id_avaliacao}}).then(avaliacao => {
+                let status = 'readonly';
+                res.render('pages/add_avaliacao', {avaliacao: avaliacao.dataValues, status});
+            }).catch((err) => {
+                req.flash('error_msg', 'Não foi possível visualizar esta Avaliação no momento!');
+                res.redirect('/avaliacoes'); 
+            });            
+        }else{
+            res.render('pages/add_avaliacao');
+        }
     });
 
     router.post('/avaliacoes/nova', (req, res) =>{
@@ -55,23 +81,45 @@ router.get('/admin', (req, res) =>{
         }
 
         if (erros.length > 0){
-            res.render('pages/add_avaliacoes', {erros: erros});
+            res.render('pages/add_avaliacao', {erros: erros});
         }else{
-            const novaAvaliaco = {
-                id_usuario_avaliador: 0,
-                id_usuario_avaliado: 0,
-                melhorar: req.body.melhorar,
-                manter: req.body.manter,
-                sugestoes: req.body.sugestoes,
-                avaliaco_final: req.body.avaliaco_final
+            let id_avaliacao = req.query.id || '';
+            if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
+                // Cadastro de Avaliação.
+                Avaliacao.findOne({where: {id: id_avaliacao}}).then(avaliacao => {
+                    avaliacao.melhorar = req.body.melhorar;
+                    avaliacao.manter = req.body.manter;
+                    avaliacao.sugestoes = req.body.sugestoes;
+                    avaliacao.avaliaco_final = req.body.avaliaco_final;
+                    avaliacao.save().then(() => {
+                        res.flash('success_msg', 'Avaliação atualziada com sucesso!');
+                        res.redirect('/avaliacoes'); 
+                    }).catch((err) => {
+                        res.flash('error_msg', 'Não foi possível atualizar a Avaliação!');
+                        res.redirect('/avaliacoes');
+                    });
+                }).catch((err) => {
+                    req.flash('error_msg', 'Não foi possível visualizar esta Avaliação no momento!');
+                    res.redirect('/avaliacoes'); 
+                });            
+            }else{            
+                // Atualização de Avaliação.
+                const novaAvaliaco = {
+                    id_usuario_avaliador: 0,
+                    id_usuario_avaliado: 0,
+                    melhorar: req.body.melhorar,
+                    manter: req.body.manter,
+                    sugestoes: req.body.sugestoes,
+                    avaliaco_final: req.body.avaliaco_final
+                }
+                Avaliacao.create(novaAvaliaco).then(() => {
+                    req.flash('success_msg', 'Avaliação registrada com sucesso!');
+                    res.redirect('/avaliacoes')
+                }).catch((err) => {
+                    req.flash('error_msg', 'Erro ao registrar a Avaliação!');
+                    res.redirect('/avaliacoes');
+                });
             }
-            Avaliacao.create(novaAvaliaco).then(() => {
-                req.flash('success_msg', 'Avaliação registrada com sucesso!');
-                res.redirect('/avaliacoes')
-            }).catch((err) => {
-                req.flash('error_msg', 'Erro ao registrar a Avaliação!');
-                res.redirect('/avaliacoes');
-            });
         }
     });
 
