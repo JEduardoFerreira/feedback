@@ -1,28 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" type="image/x-icon" href="/img/fav.png"/>
-        <link rel="icon" type="image/png" href="/img/fav.png" />
-        <link rel="apple-touch-icon" type="image/png" href="/img/fav.png"/>
-        <link rel="stylesheet" href="/css/bootstrap.css"/>
-        <link rel="stylesheet" href="/css/fontawesome.css"/>
-        <link rel="stylesheet" href="/css/brands.css"/>
-        <link rel="stylesheet" href="/css/solid.css"/>
-        <link rel="stylesheet" href="/css/index.css"/>
-        <title>FeedBack de Usuários</title>
-    </head>
-    <body>
-        {{>_navbar}}
-        <div class="container mt-4">
-            {{>_msg}}
-            {{{body}}}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/fav.png" />
+    <link rel="icon" type="image/png" href="/img/fav.png" />
+    <link rel="apple-touch-icon" type="image/png" href="/img/fav.png" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/fontawesome.css" />
+    <link rel="stylesheet" href="/css/brands.css" />
+    <link rel="stylesheet" href="/css/solid.css" />
+    <link rel="stylesheet" href="/css/index.css" />
+    <title>FeedBack de Usuários</title>
+</head>
+
+<body>
+    {{>_navbar}}
+    <div class="container mt-4">
+        {{>_msg}}
+        {{{body}}}
+    </div>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 px-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                <svg class="bi" width="30" height="24">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <span class="text-muted">© 2021 José Eduardo Ferreira, Desenvolvedor FullStack</span>
         </div>
-    </body>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <script src="/js/jquery-3.6.0.js"></script>
-    <script src="/js/index.js"></script>
+        <ul id="media-social" class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3">
+                <a class="text-muted" href="https://www.linkedin.com/in/eduardo-ferreira-bb5981124/">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="text-muted" href="https://github.com/JEduardoFerreira">
+                    <i class="fab fa-github"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="text-muted" href="https://www.instagram.com/joseduferreira/">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li class="ms-3">
+                <a class="text-muted" href="https://www.facebook.com/eduardo.ferreira.5015/" target="new_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+            </li>
+        </ul>
+    </footer>
+</body>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/jquery-3.6.0.js"></script>
+<script src="/js/index.js"></script>
+
 </html>

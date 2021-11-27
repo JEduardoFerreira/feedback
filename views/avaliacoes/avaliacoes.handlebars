@@ -1,0 +1,29 @@
+<header class="pb-1 mb-2 border-bottom">
+    <span class="fs-2 fw-5">Avaliações</span>
+    <a id="novo-ava" class="btn btn-outline-success mt-3 btn-sm" href="/avaliacoes/add" role="button">Nova Avaliação</a>
+</header>
+<div id="container-avaliacoes">
+    <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+        {{#each avaliacoes}}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title" title="Sobre">{{nome_avaliado}}</h5>
+                    <p class="card-text">{{avaliaco_final}}</p>
+                    <footer class="blockquote-footer">
+                        <cite title="Escrito por">{{nome_avaliador}}</cite>
+                        <cite title="Escrito em">{{updatedAt}}</cite>
+                    </footer>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group" role="group" aria-label="Controles">
+                        <a class="btn btn-sm btn-outline-secondary px-3 vis-ava" href="/avaliacoes/add?id={{id}}" role="button">Ver</a>
+                        <a class="btn btn-sm btn-outline-secondary px-3 edt-ava" href="/avaliacoes/add?id={{id}}" role="button">Editar</a>
+                        <a class="btn btn-sm btn-outline-secondary px-3 exc-ava" href="/avaliacoes/exc?id={{id}}" role="button">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

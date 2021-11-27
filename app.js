@@ -6,7 +6,9 @@
     const { engine } = require ('express-handlebars');
     const bodyParser = require('body-parser');
     const app = express()
-    const urls = require('./routes/urls')
+    const urls_index = require('./routes/urls_index')
+    const urls_avaliacoes = require('./routes/urls_avaliacoes')
+    const urls_usuarios = require('./routes/urls_usuarios')
     const path = require('path');
     const session = require('express-session')
     const flash = require('connect-flash')
@@ -37,7 +39,8 @@
         app.engine('handlebars', engine({ 
             extname: 'handlebars', 
             defaultLayout: 'main', 
-            layoutsDir: __dirname + '/views/layouts/'
+            layoutsDir: __dirname + '/views/layouts/', 
+            helpers: require("./public/js/helpers"),
         }));
         app.set('view engine', 'handlebars');
 
@@ -45,7 +48,9 @@
         app.use(express.static(path.join(__dirname, 'public')))
 
 // Rotas
-    app.use('/', urls)
+    app.use('/', urls_index);
+    app.use('/', urls_avaliacoes);
+    app.use('/', urls_usuarios);
 
 // Outros
 

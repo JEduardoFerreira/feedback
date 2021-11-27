@@ -1,0 +1,46 @@
+<header class="pb-1 mb-4 border-bottom">
+{{#if avaliacao.id}}
+    {{#if usuario}}
+        <span class="fs-2 fw-5">Editar Avaliação</span>
+    {{else}}
+        <span class="fs-2 fw-5">Visualizar Avaliação</span>
+    {{/if}}
+{{else}}
+    <span class="fs-2 fw-5">Nova Avaliação</span>
+{{/if}}
+    <a id="voltar-ava" class="btn btn-outline-danger mt-3 btn-sm" href="/avaliacoes/" role="button">Voltar</a>
+</header>
+{{#each erros}}
+    <div class="alert alert-danger">{{texto}}</div>
+{{/each}}
+<div class="card">
+    <div class="card-body">
+        <form action="/avaliacoes/nova" method="post">
+            <input id="id" name="id" type="hidden" value="{{avaliacao.id}}"/>
+            <label for="id_avaliado">Usuário Avaliado:</label>
+            <select id="id_avaliado" name="id_avaliado" class="form-control" required>
+                {{#each usuarios}}
+                    {{#ifCond ../avaliacao.id_usuario_avaliado '==' id}} 
+                        <option selected value="{{../id}}">{{../nome}}</option>
+                    {{else}}
+                        {{#ifCond ../../status '!=' 'readonly'}}
+                            <option value="{{../../id}}">{{../../nome}}</option>
+                        {{/ifCond}}
+                    {{/ifCond }}
+                {{/each}}
+            </select>
+            <label for="melhorar">Melhorar:</label>
+            <textarea type="text" id="melhorar" name="melhorar" class="form-control" rows="4" placeholder="Descreva os pontos a serem melhorados" required {{status}}>{{avaliacao.melhorar}}</textarea>
+            <label for="manter">Manter:</label>
+            <textarea type="text" id="manter" name="manter" class="form-control" rows="4" placeholder="Descreva os pontos a serem mantidos"required {{status}}>{{avaliacao.manter}}</textarea>
+            <label for="sugestoes">Sugestões:</label>
+            <textarea type="text" id="sugestoes" name="sugestoes" class="form-control" rows="4" placeholder="Dê sugestões" required {{status}}>{{avaliacao.sugestoes}}</textarea>
+            <label for="avaliaco_final">Avaliação Final:</label>
+            <textarea type="text" id="avaliaco_final" name="avaliaco_final" class="form-control" rows="4" placeholder="Dê sua avaliação final" required {{status}}>{{avaliacao.avaliaco_final}}</textarea>
+            <br>
+            {{#unless avaliacao.id}}
+                <button type="submit" class="btn btn-success">Criar Avaliação</button>
+            {{/unless}}
+        </form>
+    </div>
+</div>

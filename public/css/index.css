@@ -1,3 +1,34 @@
+select {
+    -webkit-appearance: auto !important;
+    -moz-appearance: auto !important;
+    appearance: auto !important;
+}
+
+textarea {
+    resize: none;
+}
+
+label[for] {
+    cursor: pointer;
+}
+
+div.alert {
+    display: flex;
+}
+
+.btn-close {
+    margin: auto 10px auto 0px;
+    float: right;
+}
+
+#ver-todas, #novo-ava, #voltar-ava, #voltar-usu {
+    float: right;
+}
+
+ul#media-social>li>a>i {
+    font-size: 26px;
+}
+
 .blockquote-footer {
     text-align: right;
     margin: 0px;
@@ -6,6 +37,14 @@
 .blockquote-footer>cite:nth-child(2) {
     display: block;
     font-size: 10px;
+}
+
+h5.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 p.card-text {
@@ -19,10 +58,22 @@ p.card-text {
     -webkit-box-orient: vertical;
 }
 
-.card-footer {
-    text-align: center;
-}
-
 .card-footer>button {
     margin: 0px 5px;
+}
+
+.vis-ava:hover {
+    background-color: #198754;
+}
+
+.edt-ava:hover {
+    background-color: #0b5ed7;
+}
+
+.exc-ava:hover {
+    background-color: #dc3545;
+}
+
+.fw-5 {
+    font-weight: 500;
 }

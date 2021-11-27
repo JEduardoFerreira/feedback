@@ -1,3 +1,11 @@
+$(document).ready(event => {
+    let elem = document.querySelectorAll(':read-write')
+    if (elem.length > 0){
+        elem = elem[0];
+        elem.focus();
+    }
+});
+
 function format(pattern, string) {
     pattern = pattern.toString();
     string = string.toString();
@@ -37,10 +45,7 @@ $('document').ready(()=> {
     });
 });
 
-$("#container-avaliacoes").on('click', '.vis-ava, .edt-ava, .exc-ava', event => {
-    event.preventDefault();
-    debugger;
-    let elem = event.currentTarget;
-    let target = elem.getAttribute('to-ref');
-    window.location.href = target;    
+$(".container").on('click', '.btn-close', event => {
+    let elem = event.currentTarget.parentElement;
+    elem.remove();
 });

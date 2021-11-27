@@ -1,0 +1,41 @@
+<header class="pb-1 mb-4 border-bottom">
+    <a href="/" class="d-flex align-items-center text-dark text-decoration-none">
+        <img src="/img/fav.png" width="40" height="32" class="me-2" role="img">
+        <span class="fs-4">Feedback</span>
+    </a>
+</header>
+<div class="p-4 mb-4 bg-light rounded-3">
+    <div class="container-fluid py-2">
+        <h1 class="display-5 fw-bold">Avalie-nos!</h1>
+        <p class="col-md-10 fs-4">Ajude-nos a proporcionar a melhor experiência para novos clientes e parceiros!</p>
+    </div>
+</div>
+<header class="pb-1 mb-4 border-bottom">
+    <span class="fs-4">Utimas Avaliações</span>
+    <a id="ver-todas" class="btn btn-outline-secondary mt-1 btn-sm" href="/avaliacoes" role="button">Ver Todas</a>
+</header>
+<div id="container-avaliacoes">
+    <div class="row row-cols-1 row-cols-md-4 g-4 mt-3">
+        {{#each avaliacoes}}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title" title="Sobre">{{nome_avaliado}}</h5>
+                    <p class="card-text">{{avaliaco_final}}</p>
+                    <footer class="blockquote-footer">
+                        <cite title="Escrito por">{{nome_avaliador}}</cite>
+                        <cite title="Escrito em">{{updatedAt}}</cite>
+                    </footer>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group" role="group" aria-label="Controles">
+                        <a class="btn btn-sm btn-outline-secondary px-3 vis-ava" href="/avaliacoes/add?id={{id}}" role="button">Ver</a>
+                        <a class="btn btn-sm btn-outline-secondary px-3 edt-ava" href="/avaliacoes/add?id={{id}}" role="button">Editar</a>
+                        <a class="btn btn-sm btn-outline-secondary px-3 exc-ava" href="/avaliacoes/exc?id={{id}}" role="button">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
