@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const bcrypt = require('bcryptjs');
 const db = require('../modules/db')
 const Usuario = require('../models/usuario')
 
@@ -71,17 +72,27 @@ router.post('/usuarios/novo', (req, res) =>{
                     req.flash('error_msg', 'Já existe um usuário cadastrado com este e-mail!');
                     res.redirect('/cadastre-se');
                 }else{
-                    const novoUsuario = {
-                        nome: req.body.nome,
-                        email: req.body.email,
-                        senha: req.body.senha
-                    }
-                    Usuario.create(novoUsuario).then(() => {
-                        req.flash('success_msg', 'Usuário cadastrado com sucesso!');
-                        res.redirect('/login')
-                    }).catch((err) => {
-                        req.flash('error_msg', 'Erro ao registrar a Avaliação!');
-                        res.redirect('/login');
+                    let hash_senha = req.body.senha;
+                    bcrypt.genSalt(10, (erro, salt) => {
+                        bcrypt.hash(hash_senha, salt, (erro, hash) => {
+                            if (erro){
+                                req.flash('error_msg', 'Houve um problema ao salvar a senha!');
+                                res.redirect('/cadastre-se');
+                            }else{
+                                const novoUsuario = {
+                                    nome: req.body.nome,
+                                    email: req.body.email,
+                                    senha: hash,
+                                }
+                                Usuario.create(novoUsuario).then(() => {
+                                    req.flash('success_msg', 'Usuário cadastrado com sucesso!');
+                                    res.redirect('/')
+                                }).catch((err) => {
+                                    req.flash('error_msg', 'Erro ao cadastrar o Usuário!');
+                                    res.redirect('/login');
+                                });
+                            }
+                        });
                     });
                 }
             }).catch((err) => {
@@ -90,6 +101,14 @@ router.post('/usuarios/novo', (req, res) =>{
             });
         }
     }
+});
+
+router.get('/login', (req, res) => { 
+    res.render('usuarios/login');
+});
+
+router.get('/logar', (req, res) => { 
+    res.render('Logou');
 });
 
 module.exports = router;

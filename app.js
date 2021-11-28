@@ -1,17 +1,18 @@
 // Módulos
     // Verifica estrutura das tabelas
         // Remova o comentario apenas se precisar recriar o arquivo db.sqlite
-        const migrations = require('./modules/migrations')    
+        const migrations = require('./modules/migrations');
     const express = require('express');
-    const { engine } = require ('express-handlebars');
+    const {engine} = require ('express-handlebars');
     const bodyParser = require('body-parser');
-    const app = express()
-    const urls_index = require('./routes/urls_index')
-    const urls_avaliacoes = require('./routes/urls_avaliacoes')
-    const urls_usuarios = require('./routes/urls_usuarios')
+    const app = express();
+    const urls_index = require('./routes/urls_index');
+    const urls_avaliacoes = require('./routes/urls_avaliacoes');
+    const urls_usuarios = require('./routes/urls_usuarios');
     const path = require('path');
-    const session = require('express-session')
-    const flash = require('connect-flash')
+    const session = require('express-session');
+    const flash = require('connect-flash');
+    
 
 // Configurações
     // Sessão
@@ -29,11 +30,11 @@
             res.locals.success_msg = req.flash('success_msg');
             res.locals.error_msg = req.flash('error_msg');
             next();
-        })
+        });
 
     // Body Parser
-        app.use(bodyParser.urlencoded({extended: true}))
-        app.use(bodyParser.json())
+        app.use(bodyParser.urlencoded({extended: true}));
+        app.use(bodyParser.json());
 
     // Handlerbars
         app.engine('handlebars', engine({ 
@@ -45,7 +46,7 @@
         app.set('view engine', 'handlebars');
 
     // Public
-        app.use(express.static(path.join(__dirname, 'public')))
+        app.use(express.static(path.join(__dirname, 'public')));
 
 // Rotas
     app.use('/', urls_index);
@@ -54,8 +55,7 @@
 
 // Outros
 
-const port = 3000
-app.get('/', (req, res) => res.send('Hello World!'))
+const port = 3000;
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}!`)
-})
+});
