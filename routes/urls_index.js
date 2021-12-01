@@ -19,7 +19,10 @@ router.get('/', (req, res) => {
         ORDER BY a.updatedAt DESC
         LIMIT 0,4
     `).then((avaliacoes) => {
-        res.render('index', {avaliacoes: avaliacoes[0]})
+        res.render('index', {
+            user: req.user, 
+            avaliacoes: avaliacoes[0], 
+        });
     }).catch((err) => {
         req.flash('error_msg', 'Não foi possível atualizar os dados!');
         res.render('index');

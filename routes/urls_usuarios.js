@@ -3,6 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcryptjs');
 const db = require('../modules/db')
 const Usuario = require('../models/usuario')
+const passport = require('passport')
 
 
 router.get('/cadastre-se', (req, res) => { 
@@ -11,6 +12,7 @@ router.get('/cadastre-se', (req, res) => {
         let usuario = Usuario.findOne({where: {id: id_usuario}});
         Promise.all([usuario]).then(result => {    
             res.render('usuarios/add_usuario', {
+                user: req.user, 
                 usuarios: result[0], 
             });
         }).catch((err) => {
@@ -107,8 +109,12 @@ router.get('/login', (req, res) => {
     res.render('usuarios/login');
 });
 
-router.get('/logar', (req, res) => { 
-    res.render('Logou');
+router.post('/login', (req, res, next) => { 
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true,
+    })(req, res, next);
 });
 
 module.exports = router;

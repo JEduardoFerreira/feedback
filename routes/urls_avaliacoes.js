@@ -21,7 +21,10 @@ router.get('/avaliacoes', (req, res) => {
             ON u2.id = a.id_usuario_avaliado
         ORDER BY a.updatedAt DESC
     `).then((avaliacoes) => {
-        res.render('avaliacoes/avaliacoes', {avaliacoes: avaliacoes[0]})
+        res.render('avaliacoes/avaliacoes', {
+            user: req.user, 
+            avaliacoes: avaliacoes[0],
+        });
     }).catch((err) => {
         req.flash('error_msg', 'Erro ao listar Avaliações!');
         res.redirect('/avaliacoes');
@@ -52,6 +55,7 @@ router.get('/avaliacoes/add', (req, res) => {
 
         Promise.all([avaliacao, usuarios, status]).then(result => {    
             res.render('avaliacoes/add_avaliacao', {
+                user: req.user, 
                 avaliacao: result[0], 
                 usuarios: result[1], 
                 status: result[2], 

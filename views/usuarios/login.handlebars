@@ -1,14 +1,14 @@
 
 <main class="form-signin card">
-    <form action="/logar" type="submit">
+    <form action="/login" method="post">
         <img class="mb-2" src="/img/fav.png" alt="" width="50" height="50">
         <h1 class="h3 mb-3 fw-normal">Faça Login</h1>
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="" required>
+            <input type="email" name="email" class="form-control" id="floatingInput" placeholder="" required>
             <label for="floatingInput">Email</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="" required>
+            <input type="password" name="senha" class="form-control" id="floatingPassword" placeholder="" required>
             <label for="floatingPassword">Senha</label>
         </div>
         <br>
