@@ -7,8 +7,13 @@
 <div class="p-4 mb-4 bg-light rounded-3">
     <div class="container-fluid py-2">
         <h1 class="display-5 fw-bold">Avalie-nos!</h1>
-        <p class="col-md-10 fs-4 mb-0">Ajude-nos a proporcionar a melhor experiência para novos clientes e parceiros!</p>
-        <p class="col-md-10 fs-6 mb-0">Para postar uma avaliação você precisa ter uma conta.</p>
+        <p class="col-md-10 fs-4 mb-2">Ajude-nos a proporcionar a melhor experiência para novos clientes e parceiros!</p>
+        {{#unless user}}
+            <div class="row">
+                <p class="col-md-5 fs-6 mt-0 mb-0">Para postar uma avaliação você precisa ter uma conta.</p>            
+                <a class="col-md-2 btn btn-primary mt-0 btn-sm" href="/cadastre-se" role="button">Increva-se</a>
+            </div>
+        {{/unless}}
     </div>
 </div>
 <header class="pb-1 mb-4 border-bottom">
