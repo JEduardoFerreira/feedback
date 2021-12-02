@@ -18,17 +18,31 @@
         <form action="/avaliacoes/nova" method="post">
             <input id="id" name="id" type="hidden" value="{{avaliacao.id}}"/>
             <label for="id_avaliado">Usuário Avaliado:</label>
-            <select id="id_avaliado" name="id_avaliado" class="form-control" required>
+            <select id="id_avaliado" name="id_avaliado" class="form-control" required {{status2}}>
                 {{#each usuarios}}
-                    {{#ifCond ../avaliacao.id_usuario_avaliado '==' id}} 
+                    {{#ifCond ../avaliacao.id_usuario_avaliado '==' id}}
                         <option selected value="{{../id}}">{{../nome}}</option>
                     {{else}}
-                        {{#ifCond ../../status '!=' 'readonly'}}
-                            <option value="{{../../id}}">{{../../nome}}</option>
+                        {{#ifCond ../../status2 '!=' 'readonly'}}
+                            <option value="{{../id}}">{{../nome}}</option>
                         {{/ifCond}}
                     {{/ifCond }}
                 {{/each}}
             </select>
+            {{#if avaliacao}}
+                <label for="id_avaliado">Avaliado Por:</label>
+                <select id="id_avaliador" name="id_avaliador" class="form-control" {{status2}}>
+                    {{#each usuarios}}
+                        {{#ifCond ../avaliacao.id_usuario_avaliador '==' id}} 
+                            <option selected value="{{../id}}">{{../nome}}</option>
+                        {{else}}
+                            {{#ifCond ../../status2 '!=' 'readonly'}}
+                                <option value="{{../../id}}">{{../../nome}}</option>
+                            {{/ifCond}}
+                        {{/ifCond }}
+                    {{/each}}
+                </select>
+            {{/if}}
             <label for="melhorar">Melhorar:</label>
             <textarea type="text" id="melhorar" name="melhorar" class="form-control" rows="4" placeholder="Descreva os pontos a serem melhorados" required {{status}}>{{avaliacao.melhorar}}</textarea>
             <label for="manter">Manter:</label>
@@ -40,6 +54,13 @@
             <br>
             {{#unless avaliacao.id}}
                 <button type="submit" class="btn btn-success">Criar Avaliação</button>
+            {{else}}
+                {{#ifCond status '!=' 'readonly'}}
+                    {{#ifCond ../avaliacao.id_usuario_avaliador '==' ../user.id}}
+                        <button type="submit" class="btn btn-success">Editar Avaliação</button>
+                        <a id="bt-exc-ava" class="btn btn-danger px-3" href="/avaliacoes/exc?id={{../avaliacao.id}}&mod=exc" role="button">Excluir Avaliação</a>
+                    {{/ifCond}}
+                {{/ifCond}}
             {{/unless}}
         </form>
     </div>

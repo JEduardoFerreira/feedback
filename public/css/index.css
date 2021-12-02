@@ -1,4 +1,4 @@
-select {
+select:not(select[readonly]) {
     -webkit-appearance: auto !important;
     -moz-appearance: auto !important;
     appearance: auto !important;
@@ -134,4 +134,8 @@ p.card-text {
     background-color: #fff;
     padding: 0px 12px;
     top: -12px;
+}
+
+#bt-exc-ava {
+    float: right;
 }

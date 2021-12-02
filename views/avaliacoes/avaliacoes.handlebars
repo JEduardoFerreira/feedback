@@ -1,6 +1,8 @@
 <header class="pb-1 mb-2 border-bottom">
     <span class="fs-2 fw-5">Avaliações</span>
-    <a id="novo-ava" class="btn btn-outline-success mt-3 btn-sm" href="/avaliacoes/add" role="button">Nova Avaliação</a>
+    {{#if user}}
+        <a id="novo-ava" class="btn btn-outline-success mt-3 btn-sm" href="/avaliacoes/add?mod=insert" role="button">Nova Avaliação</a>
+    {{/if}}
 </header>
 <div id="container-avaliacoes">
     <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
@@ -17,9 +19,11 @@
                 </div>
                 <div class="card-footer">
                     <div class="btn-group" role="group" aria-label="Controles">
-                        <a class="btn btn-sm btn-outline-secondary px-3 vis-ava" href="/avaliacoes/add?id={{id}}" role="button">Ver</a>
-                        <a class="btn btn-sm btn-outline-secondary px-3 edt-ava" href="/avaliacoes/add?id={{id}}" role="button">Editar</a>
-                        <a class="btn btn-sm btn-outline-secondary px-3 exc-ava" href="/avaliacoes/exc?id={{id}}" role="button">Excluir</a>
+                        <a class="btn btn-sm btn-outline-secondary px-3 vis-ava" href="/avaliacoes/add?id={{id}}&mod=view" role="button">Ver</a>
+                        {{#ifCond id_usuario_avaliador '==' ../user.id}}
+                            <a class="btn btn-sm btn-outline-secondary px-3 edt-ava" href="/avaliacoes/add?id={{../id}}&mod=edit" role="button">Editar</a>
+                            <a class="btn btn-sm btn-outline-secondary px-3 exc-ava" href="/avaliacoes/exc?id={{../id}}&mod=exc" role="button">Excluir</a>
+                        {{/ifCond}}
                     </div>
                 </div>
             </div>

@@ -88,7 +88,7 @@ router.post('/usuarios/novo', (req, res) =>{
                                 }
                                 Usuario.create(novoUsuario).then(() => {
                                     req.flash('success_msg', 'Usuário cadastrado com sucesso!');
-                                    res.redirect('/')
+                                    res.redirect('/login')
                                 }).catch((err) => {
                                     req.flash('error_msg', 'Erro ao cadastrar o Usuário!');
                                     res.redirect('/login');
@@ -115,6 +115,11 @@ router.post('/login', (req, res, next) => {
         failureRedirect: '/login',
         failureFlash: true,
     })(req, res, next);
+});
+
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
 });
 
 module.exports = router;

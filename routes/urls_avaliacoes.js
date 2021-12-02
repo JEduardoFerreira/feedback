@@ -3,6 +3,7 @@ const router = express.Router()
 const db = require('../modules/db')
 const Avaliacao = require('../models/Avaliacao')
 const Usuario = require('../models/usuario')
+const { Op } = require("sequelize");
 
 
 // Avaliações
@@ -32,40 +33,104 @@ router.get('/avaliacoes', (req, res) => {
 });
 
 router.get('/avaliacoes/exc', (req, res) => {
-    let id_avaliacao = req.query.id || '';
-    if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
-        Avaliacao.destroy({where: {id: id_avaliacao}}).then(avaliacao => {
-            req.flash('success_msg', 'Avaliação excluída com sucesso!');
-            res.redirect('/avaliacoes');
-        }).catch((err) => {
-            req.flash('error_msg', 'Não foi possível excluir esta Avaliação!');
-            res.redirect('/avaliacoes'); 
-        });            
+    let mod = req.query.mod || 'view';
+    let user_id = '';
+
+    if (req.user){user_id = req.user.id;}
+    
+    if ((mod != 'exc') && (user_id != '')){
+        res.statusCode = 401;
+        req.flash('error_msg', 'Isso parece estranho, você não pode acessar aqui!');
+        res.redirect('/avaliacoes'); 
     }else{
-        res.redirect('/avaliacao');
+        let id_avaliacao = req.query.id || '';
+        if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
+            let avaliacao = Avaliacao.findOne({where: {id: id_avaliacao}});
+            Promise.all([avaliacao]).then(result => {
+                let avaliacao = result[0];
+                if (avaliacao.id_usuario_avaliador != user_id){
+                    res.statusCode = 401;
+                    req.flash('error_msg', 'Você não pode fazer isso!');
+                    res.redirect('/avaliacoes'); 
+                }else{
+                    Avaliacao.destroy({where: {id: id_avaliacao}}).then(avaliacao => {
+                        req.flash('success_msg', 'Avaliação excluída com sucesso!');
+                        res.redirect('/avaliacoes');
+                    }).catch((err) => {
+                        req.flash('error_msg', 'Não foi possível excluir esta Avaliação!');
+                        res.redirect('/avaliacoes'); 
+                    });
+                }
+            });
+        }else{
+            res.redirect('/avaliacao');
+        }
     }
 });
 
 router.get('/avaliacoes/add', (req, res) => { 
     let id_avaliacao = req.query.id || '';
-    if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
-        let usuarios = Usuario.findAll();
-        let avaliacao = Avaliacao.findOne({where: {id: id_avaliacao}});
-        let status = 'readonly';
+    let mod = req.query.mod || 'view';
+    let user_id = '';
 
-        Promise.all([avaliacao, usuarios, status]).then(result => {    
-            res.render('avaliacoes/add_avaliacao', {
-                user: req.user, 
-                avaliacao: result[0], 
-                usuarios: result[1], 
-                status: result[2], 
-            });
-        }).catch((err) => {
-            req.flash('error_msg', 'Não foi possível visualizar esta Avaliação no momento!');
-            res.redirect('/avaliacoes'); 
-        });
+    if (req.user){user_id = req.user.id;}
+
+    if ((mod == 'insert' || mod == 'edit') && user_id == ''){
+        res.statusCode = 401;
+        req.flash('error_msg', 'Isso parece estranho, você não pode acessar aqui!');
+        res.redirect('/avaliacoes'); 
     }else{
-        res.render('avaliacoes/add_avaliacao');
+        if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
+            let usuarios = Usuario.findAll({order: [['nome', 'ASC'],],});
+            let avaliacao = Avaliacao.findOne({where: {id: id_avaliacao}});
+            Promise.all([avaliacao, usuarios]).then(result => { 
+                let avaliacao = result[0];
+                let usuarios = result[1];
+                if ((avaliacao.id_usuario_avaliador != user_id) && mod != 'view'){
+                    res.statusCode = 401;
+                    req.flash('error_msg', 'Você não pode fazer isso!');
+                    res.redirect('/avaliacoes'); 
+                }else{
+                    let status1 = '';
+                    let status2 = '';
+                    if (mod == 'view'){
+                        status1 = 'readonly';
+                        status2 = 'readonly';
+                    }else if (mod == 'edit'){
+                        status1 = '';
+                        status2 = 'readonly';
+                    }else{
+                        status1 = '';
+                        status2 = '';
+                    }
+                    res.render('avaliacoes/add_avaliacao', {
+                        user: req.user, 
+                        avaliacao: avaliacao, 
+                        usuarios: usuarios, 
+                        status: status1, 
+                        status2: status2,
+                    });
+                }
+            }).catch((err) => {
+                req.flash('error_msg', 'Não foi possível visualizar esta Avaliação no momento!');
+                res.redirect('/avaliacoes'); 
+            });
+        }else{
+            let usuarios = Usuario.findAll({
+                where: {id: {[Op.ne]: user_id}},
+                order: [['nome', 'ASC'],],
+            });
+            Promise.all([usuarios]).then(result => {
+                res.render('avaliacoes/add_avaliacao', {
+                    user: req.user, 
+                    usuarios: result[0]
+                });
+            }).catch((err) => {
+                req.flash('error_msg', 'Não foi possível carregar a pagina!');
+                res.redirect('/avaliacoes'); 
+            });
+                
+        }
     }
 });
 
@@ -90,30 +155,31 @@ router.post('/avaliacoes/nova', (req, res) =>{
     if (erros.length > 0){
         res.render('avaliacoes/add_avaliacao', {erros: erros});
     }else{
-        let id_avaliacao = req.query.id || '';
+        let id_avaliacao = req.body.id;
         if ((id_avaliacao.length > 0) && (id_avaliacao != '') && (id_avaliacao != undefined)){
-            // Cadastro de Avaliação.
-            Avaliacao.findOne({where: {id: id_avaliacao}}).then(avaliacao => {
-                avaliacao.melhorar = req.body.melhorar;
-                avaliacao.manter = req.body.manter;
-                avaliacao.sugestoes = req.body.sugestoes;
-                avaliacao.avaliaco_final = req.body.avaliaco_final;
-                avaliacao.save().then(() => {
-                    res.flash('success_msg', 'Avaliação atualziada com sucesso!');
-                    res.redirect('/avaliacoes'); 
-                }).catch((err) => {
-                    res.flash('error_msg', 'Não foi possível atualizar a Avaliação!');
-                    res.redirect('/avaliacoes');
-                });
-            }).catch((err) => {
-                req.flash('error_msg', 'Não foi possível visualizar esta Avaliação no momento!');
+            // Edição de Avaliação.
+            Avaliacao.update(
+                {
+                    melhorar: req.body.melhorar,
+                    manter: req.body.manter,
+                    sugestoes: req.body.sugestoes,
+                    avaliaco_final: req.body.avaliaco_final, 
+                },
+                {
+                    where: {id: id_avaliacao}
+                }
+            ).then(() => {
+                req.flash('success_msg', 'Avaliação atualziada com sucesso!');
                 res.redirect('/avaliacoes'); 
-            });            
+            }).catch((err) => {
+                req.flash('error_msg', 'Não foi possível atualizar a Avaliação!');
+                res.redirect('/avaliacoes');
+            });          
         }else{            
-            // Atualização de Avaliação.
+            // Cadastro de Avaliação.
             const novaAvaliaco = {
-                id_usuario_avaliador: 0,
-                id_usuario_avaliado: 0,
+                id_usuario_avaliador: req.user.id,
+                id_usuario_avaliado: req.body.id_avaliado,
                 melhorar: req.body.melhorar,
                 manter: req.body.manter,
                 sugestoes: req.body.sugestoes,

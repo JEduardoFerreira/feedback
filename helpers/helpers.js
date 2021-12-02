@@ -27,8 +27,6 @@ module.exports = {
         }
     },
     isLogged: (req, res, next) => {
-        console.log('================')
-        console.log('chegou')
         if (req.isAuthenticated()) {
             return next();
         }else{
